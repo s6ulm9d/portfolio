@@ -26,7 +26,7 @@ const Navbar = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 + 0.3, duration: 0.5 }}
                 whileHover={{ scale: 1.1, color: '#a78bfa' }}
-                className="text-gray-300 hover:text-purple-400 transition-colors duration-300 font-medium"
+                className="text-gray-300 hover:text-purple-400 transition-colors duration-300 font-medium cursor-pointer"
               >
                 {item}
               </motion.a>

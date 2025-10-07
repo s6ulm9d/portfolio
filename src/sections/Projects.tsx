@@ -6,18 +6,34 @@ const Projects = () => {
   const projects = [
     {
       icon: <Bot />,
-      title: 'AI Innovation',
-      description: 'Cutting-edge artificial intelligence solutions that push the boundaries of machine learning and automation.',
+      title: 'Moodify',
+      description: 'Interactive platform enhancing user experience through personalized content.',
+      github: 'https://github.com/s6ulm9d/moodify',
+      live: 'https://moodify-wine.vercel.app/',
     },
     {
       icon: <Code />,
-      title: 'Code Mastery',
-      description: 'Building robust, scalable applications with modern frameworks and best practices for optimal performance.',
+      title: 'GhostPrint Web',
+      description: 'Monitors user interactions for anomaly detection and privacy protection.',
+      github: 'https://github.com/s6ulm9d/Ghgostprint-web',
+      live: 'https://ghostprint-web.netlify.app/',
     },
     {
       icon: <Rocket />,
-      title: 'Launch Ready',
-      description: 'Production-ready projects designed for speed, reliability, and seamless deployment to global audiences.',
+      title: 'Spotify Clone',
+      description: 'Music streaming interface clone showcasing UI/UX and interactivity skills.',
+      github: 'https://github.com/s6ulm9d/spotify-clone',
+      live: 'https://s6ulm9.vercel.app/',
+    },
+    {
+      icon: <Bot />,
+      title: 'Dynamic Island (Future Idea)',
+      description: 'Innovative floating overlay feature improving user interactions on mobile.',
+    },
+    {
+      icon: <Code />,
+      title: 'Security App (Future Idea)',
+      description: 'Advanced mobile platform for user behavior monitoring and anomaly detection.',
     },
   ];
 
@@ -45,7 +61,35 @@ const Projects = () => {
               key={project.title}
               icon={project.icon}
               title={project.title}
-              description={project.description}
+              description={
+                <>
+                  <p>{project.description}</p>
+                  {(project.github || project.live) && (
+                    <div className="flex justify-center gap-4 mt-4">
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-sm text-gray-200 hover:text-purple-400 transition-colors"
+                        >
+                          <Code size={16} /> GitHub
+                        </a>
+                      )}
+                      {project.live && (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-sm text-gray-200 hover:text-purple-400 transition-colors"
+                        >
+                          <Rocket size={16} /> Live
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </>
+              }
               index={index}
             />
           ))}

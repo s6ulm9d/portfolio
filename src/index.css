@@ -21,3 +21,8 @@
     rgba(236, 72, 153, 0.4)
   );
 }
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}

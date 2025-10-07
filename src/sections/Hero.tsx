@@ -28,21 +28,23 @@ const Hero = () => {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="flex gap-6 justify-center"
         >
-          <motion.button
+          <motion.a
+            href="#projects"
             whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(139, 92, 246, 0.6)' }}
             whileTap={{ scale: 0.95 }}
             className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-white font-semibold text-lg shadow-lg"
           >
             View Projects
-          </motion.button>
+          </motion.a>
 
-          <motion.button
+          <motion.a
+            href="#contact"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="px-8 py-4 glass-strong rounded-full text-white font-semibold text-lg"
           >
             Contact Me
-          </motion.button>
+          </motion.a>
         </motion.div>
 
         <motion.div

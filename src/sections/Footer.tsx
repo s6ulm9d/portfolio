@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { Github, Linkedin, Twitter } from 'lucide-react';
+import { motion } from "framer-motion";
+import { Github, Linkedin, Mail } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -16,9 +16,9 @@ const Footer = () => {
         >
           <div className="flex gap-6">
             {[
-              { icon: <Github />, href: '#' },
-              { icon: <Twitter />, href: '#' },
-              { icon: <Linkedin />, href: '#' },
+              { icon: <Github />, href: "https://github.com/s6ulm9d" },
+              { icon: <Linkedin />, href: "https://www.linkedin.com/in/soul-mad/" },
+              { icon: <Mail />, href: "mailto:srybroiambusy@gmail.com" },
             ].map((social, index) => (
               <motion.a
                 key={index}
