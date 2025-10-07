@@ -2,37 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-
-  body {
-    @apply antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-  }
+/* Glass card hover + 3D depth */
+.skill-card {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  will-change: transform;
+  perspective: 1000px;
 }
 
-@layer utilities {
-  .glass {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
+.skill-card:hover {
+  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4);
+}
 
-  .glass-strong {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400;
-  }
-
-  .glow {
-    filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5));
-  }
+/* Section gradient background */
+.skills-section {
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.4),
+    rgba(236, 72, 153, 0.4)
+  );
 }
