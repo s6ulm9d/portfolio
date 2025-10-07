@@ -10,7 +10,7 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-7xl md:text-8xl font-bold mb-6 text-gradient leading-tight"
         >
-          Welcome to Soulmad
+          Welcome to My Portfolio
         </motion.h1>
 
         <motion.p
