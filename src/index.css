@@ -1,25 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Glass card hover + 3D depth */
-.skill-card {
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-  will-change: transform;
-  perspective: 1000px;
+@layer base {
+  body {
+    @apply bg-[#f4f4f0] text-[#1a1a1a] font-sans;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif;
+  }
 }
 
-.skill-card:hover {
-  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4);
+@layer utilities {
+  .font-serif {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .font-sans {
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Redefine text-gradient to be solid black for this theme, 
+     or a subtle ink texture if possible. For now, solid black/dark gray. */
+  .text-gradient {
+    @apply text-[#1a1a1a];
+    background: none;
+    -webkit-text-fill-color: initial;
+  }
 }
 
-/* Section gradient background */
-.skills-section {
-  background: linear-gradient(
-    135deg,
-    rgba(99, 102, 241, 0.4),
-    rgba(236, 72, 153, 0.4)
-  );
+/* Paper Card Style - Replaces Glassmorphism */
+.glass-strong,
+.glass-card {
+  @apply bg-white border-2 border-black;
+  box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
+  transition: all 0.3s ease;
+}
+
+.glass-strong:hover,
+.glass-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 1);
 }
 
 /* Smooth scrolling */

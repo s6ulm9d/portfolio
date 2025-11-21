@@ -2,12 +2,12 @@ import { motion, useMotionValue, useSpring, useTransform, useAnimation } from 'f
 import { ReactNode, useRef, MouseEvent, useState } from 'react';
 
 interface GlassCardProps {
-  icon: ReactNode;
+  icon?: ReactNode;
   title: string;
-  description: string;
+  description: ReactNode;
   index: number;
-  isSkill?: boolean;   // Flag to identify skill cards
-  percent?: number;    // Skill proficiency %
+  isSkill?: boolean;
+  percent?: number;
 }
 
 const GlassCard = ({ icon, title, description, index, isSkill = false, percent = 0 }: GlassCardProps) => {
@@ -15,25 +15,20 @@ const GlassCard = ({ icon, title, description, index, isSkill = false, percent =
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [20, -20]), {
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [5, -5]), { // Reduced tilt for paper feel
     stiffness: 300,
     damping: 30,
   });
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-20, 20]), {
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-5, 5]), {
     stiffness: 300,
     damping: 30,
-  });
-  const translateZ = useSpring(useTransform(mouseX, [-0.5, 0.5], [-30, 30]), {
-    stiffness: 200,
-    damping: 25,
   });
 
-  const progressControls = useAnimation();
   const [hovered, setHovered] = useState(false);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
-    if (window.matchMedia("(max-width: 768px)").matches) return; // Disable tilt on mobile
+    if (window.matchMedia("(max-width: 768px)").matches) return;
 
     const rect = cardRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
@@ -73,81 +68,52 @@ const GlassCard = ({ icon, title, description, index, isSkill = false, percent =
       className="relative"
     >
       <motion.div
-        whileHover={{ scale: 1.08, z: 80 }}
-        style={{ translateZ, transformStyle: 'preserve-3d' }}
+        whileHover={{ scale: 1.02 }} // Subtle scale
+        style={{ transformStyle: 'preserve-3d' }}
         transition={{ duration: 0.3 }}
-        className="glass-strong rounded-2xl p-8 relative overflow-hidden group cursor-pointer"
-        onHoverStart={() => {
-          setHovered(true);
-          if (isSkill) progressControls.start({ width: `${percent}%` });
-        }}
-        onHoverEnd={() => {
-          setHovered(false);
-          // Uncomment next line if you want the bar to reset after hover
-          // if (isSkill) progressControls.start({ width: `0%` });
-        }}
+        className="glass-strong rounded-none p-8 relative overflow-hidden group cursor-pointer bg-white border-2 border-black"
+        onHoverStart={() => setHovered(true)}
+        onHoverEnd={() => setHovered(false)}
       >
-        {/* Background glow */}
-        <motion.div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          style={{
-            background: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.3), rgba(236, 72, 153, 0.3), transparent)',
-            filter: 'blur(40px)',
-          }}
-        />
-        <motion.div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          animate={{
-            background: [
-              'linear-gradient(45deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1))',
-              'linear-gradient(90deg, rgba(236, 72, 153, 0.1), rgba(139, 92, 246, 0.1))',
-              'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1))',
-            ],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: 'linear',
-          }}
-        />
+        {/* No more background glows. Just clean paper. */}
 
-        <div className="relative z-10" style={{ transform: 'translateZ(40px)' }}>
-          <motion.div
-            whileHover={{ scale: 1.2, rotate: 360 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="text-5xl mb-6 text-purple-400 glow"
-          >
-            {icon}
-          </motion.div>
+        <div className="relative z-10" style={{ transform: 'translateZ(20px)' }}>
+          {icon && (
+            <motion.div
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="text-5xl mb-6 text-black"
+            >
+              {icon}
+            </motion.div>
+          )}
 
-          <h3 className="text-2xl font-bold text-white mb-4">{title}</h3>
+          <h3 className="text-3xl font-bold text-black mb-4 font-serif border-b-2 border-black pb-2 inline-block">
+            {title}
+          </h3>
 
-          {!isSkill && <p className="text-gray-300 leading-relaxed">{description}</p>}
+          {!isSkill && <div className="text-[#333] leading-relaxed font-serif">{description}</div>}
 
-          {/* Skill progress bar */}
+          {/* Skill progress bar - Paper Style */}
           {isSkill && (
             <div className="mt-4 w-full">
-              <div className="relative w-full h-4 bg-white/20 rounded-full overflow-hidden">
+              <div className="relative w-full h-4 border-2 border-black rounded-none overflow-hidden bg-white">
                 <motion.div
-                  animate={progressControls}
                   initial={{ width: 0 }}
-                  className="absolute left-0 top-0 h-4 bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 rounded-full"
-                  transition={{ duration: 1.2, ease: 'easeInOut' }}
+                  whileInView={{ width: `${percent}%` }}
+                  viewport={{ once: true }}
+                  className="absolute left-0 top-0 h-full bg-black" // Solid black bar
+                  transition={{ duration: 1.5, ease: 'easeOut', delay: 0.2 }}
                 />
               </div>
               {hovered && (
-                <span className="text-sm text-gray-200 mt-1 block text-center">
+                <span className="text-sm text-black mt-1 block text-center font-bold font-mono">
                   {percent}%
                 </span>
               )}
             </div>
           )}
         </div>
-
-        <motion.div
-          className="absolute inset-0 border-2 border-purple-500/0 group-hover:border-purple-500/50 rounded-2xl transition-all duration-500"
-          style={{ pointerEvents: 'none' }}
-        />
       </motion.div>
     </motion.div>
   );
