@@ -1,6 +1,33 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => setIsOpen(!isOpen);
+
+  const menuVariants = {
+    closed: {
+      opacity: 0,
+      x: "100%",
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 40
+      }
+    },
+    open: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 40
+      }
+    }
+  };
+
   return (
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
@@ -17,7 +44,8 @@ const Navbar = () => {
             Soulmad
           </motion.div>
 
-          <div className="flex gap-8">
+          {/* Desktop Menu */}
+          <div className="hidden md:flex gap-8">
             {['Home', 'Skills', 'Projects', 'Contact'].map((item, index) => (
               <motion.a
                 key={item}
@@ -32,8 +60,41 @@ const Navbar = () => {
               </motion.a>
             ))}
           </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button onClick={toggleMenu} className="text-white focus:outline-none">
+              {isOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial="closed"
+            animate="open"
+            exit="closed"
+            variants={menuVariants}
+            className="fixed inset-0 bg-black/90 z-40 flex flex-col items-center justify-center md:hidden"
+          >
+            <div className="flex flex-col gap-8 text-center">
+              {['Home', 'Skills', 'Projects', 'Contact'].map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  onClick={toggleMenu}
+                  className="text-2xl text-gray-300 hover:text-purple-400 transition-colors font-medium"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 };

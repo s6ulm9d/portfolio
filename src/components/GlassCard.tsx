@@ -33,6 +33,8 @@ const GlassCard = ({ icon, title, description, index, isSkill = false, percent =
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
+    if (window.matchMedia("(max-width: 768px)").matches) return; // Disable tilt on mobile
+
     const rect = cardRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;

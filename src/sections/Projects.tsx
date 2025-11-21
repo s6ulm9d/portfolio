@@ -1,42 +1,9 @@
 import { motion } from 'framer-motion';
-import { Bot, Code, Rocket } from 'lucide-react';
+import { projects } from "../constants";
 import GlassCard from '../components/GlassCard';
+import { Code, Rocket } from 'lucide-react';
 
 const Projects = () => {
-  const projects = [
-    {
-      icon: <Bot />,
-      title: 'Moodify',
-      description: 'Interactive platform enhancing user experience through personalized content.',
-      github: 'https://github.com/s6ulm9d/moodify',
-      live: 'https://moodify-wine.vercel.app/',
-    },
-    {
-      icon: <Code />,
-      title: 'GhostPrint Web',
-      description: 'Monitors user interactions for anomaly detection and privacy protection.',
-      github: 'https://github.com/s6ulm9d/Ghgostprint-web',
-      live: 'https://ghostprint-web.netlify.app/',
-    },
-    {
-      icon: <Rocket />,
-      title: 'Spotify Clone',
-      description: 'Music streaming interface clone showcasing UI/UX and interactivity skills.',
-      github: 'https://github.com/s6ulm9d/spotify-clone',
-      live: 'https://s6ulm9.vercel.app/',
-    },
-    {
-      icon: <Bot />,
-      title: 'Dynamic Island (Future Idea)',
-      description: 'Innovative floating overlay feature improving user interactions on mobile.',
-    },
-    {
-      icon: <Code />,
-      title: 'Security App (Future Idea)',
-      description: 'Advanced mobile platform for user behavior monitoring and anomaly detection.',
-    },
-  ];
-
   return (
     <section id="projects" className="min-h-screen py-20 px-6">
       <div className="max-w-7xl mx-auto">
@@ -59,7 +26,7 @@ const Projects = () => {
           {projects.map((project, index) => (
             <GlassCard
               key={project.title}
-              icon={project.icon}
+              icon={<project.icon />}
               title={project.title}
               description={
                 <>
