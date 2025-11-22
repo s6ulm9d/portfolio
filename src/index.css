@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-[#f4f4f0] text-[#1a1a1a] font-sans;
+    @apply bg-obsidian text-white font-sans antialiased overflow-x-hidden;
   }
 
   h1,
@@ -20,38 +20,24 @@
 }
 
 @layer utilities {
-  .font-serif {
-    font-family: 'Playfair Display', serif;
+  .glass-panel {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl;
   }
 
-  .font-sans {
-    font-family: 'Inter', sans-serif;
-  }
-
-  /* Redefine text-gradient to be solid black for this theme, 
-     or a subtle ink texture if possible. For now, solid black/dark gray. */
-  .text-gradient {
-    @apply text-[#1a1a1a];
-    background: none;
-    -webkit-text-fill-color: initial;
+  .text-glow {
+    text-shadow: 0 0 10px rgba(147, 51, 234, 0.5);
   }
 }
 
-/* Paper Card Style - Replaces Glassmorphism */
-.glass-strong,
-.glass-card {
-  @apply bg-white border-2 border-black;
-  box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
-  transition: all 0.3s ease;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-.glass-strong:hover,
-.glass-card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 1);
+::-webkit-scrollbar-track {
+  @apply bg-obsidian;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+::-webkit-scrollbar-thumb {
+  @apply bg-white/20 rounded-full hover:bg-white/30 transition-colors;
 }

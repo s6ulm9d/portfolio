@@ -1,60 +1,92 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { skills } from "../constants";
 import GlassCard from '../components/GlassCard';
 
-const Skills = () => {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
+const categories = ["All", "Frontend", "Backend", "Languages", "Tools"];
 
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
-  const titleScale = useTransform(scrollYProgress, [0, 0.2], [0.8, 1]);
-  const titleY = useTransform(scrollYProgress, [0, 0.2], [100, 0]);
+const Skills = () => {
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filteredSkills = skills.filter(skill =>
+    activeCategory === "All" ? true : skill.category === activeCategory
+  );
 
   return (
-    <div ref={containerRef} id="skills" className="relative min-h-[200vh] bg-[#f4f4f0]">
-      {/* Cinematic Sticky Title */}
-      <section className="h-screen sticky top-0 flex items-center justify-center overflow-hidden z-0 bg-[#f4f4f0]">
-        <motion.div
-          style={{ opacity: titleOpacity, scale: titleScale, y: titleY }}
-          className="text-center"
-        >
-          <h2 className="text-7xl md:text-9xl font-bold text-black mb-6 tracking-tighter font-serif uppercase border-b-4 border-black inline-block pb-4">
-            MY SKILLS
-          </h2>
-          <p className="text-2xl text-[#4a4a4a] font-serif italic">
-            "The arsenal of tools I use to create."
-          </p>
-        </motion.div>
-      </section>
+    <section id="skills" className="min-h-screen py-20 relative z-10">
+      <div className="container mx-auto px-6">
+        {/* Sticky Header with Parallax Text */}
+        <div className="sticky top-24 z-20 mb-12 text-center mix-blend-difference">
+          <motion.h2
+            initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400 inline-block"
+          >
+            Technical Arsenal
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="text-xl text-gray-400 max-w-2xl mx-auto"
+          >
+            The technical arsenal I use to bring my wildest ideas to life.
+          </motion.p>
+        </div>
 
-      {/* Skills Grid Scrolling Over */}
-      <div className="relative z-10 container mx-auto px-6 pb-40 mt-[-20vh]">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {skills.map((skill, index) => (
-            <motion.div
-              key={skill.name}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.05 }}
-              viewport={{ once: true, margin: "-50px" }}
+        {/* Category Tabs */}
+        <div className="flex flex-wrap justify-center gap-4 mb-12 relative z-30">
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${activeCategory === category
+                ? "bg-white text-obsidian border-white"
+                : "bg-white/5 text-gray-400 border-white/10 hover:bg-white/10 hover:text-white"
+                }`}
             >
-              <GlassCard
-                icon={<img src={skill.logo} alt={skill.name} className="w-16 h-16 object-contain grayscale" />} // Grayscale logos for theme
-                title={skill.name}
-                description=""
-                index={index}
-                isSkill={true}
-                percent={skill.percent}
-              />
-            </motion.div>
+              {category}
+            </button>
           ))}
         </div>
+
+        {/* Skills Grid */}
+        <motion.div
+          layout
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+        >
+          <AnimatePresence mode='popLayout'>
+            {filteredSkills.map((skill) => (
+              <motion.div
+                key={skill.name}
+                layout
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.3 }}
+              >
+                <GlassCard
+                  icon={
+                    <img
+                      src={skill.logo}
+                      alt={skill.name}
+                      className="w-12 h-12 object-contain mb-4 filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                    />
+                  }
+                  title={skill.name}
+                  description={`${skill.percent}% Proficiency`}
+                  index={0} // Reset index for consistent animation
+                  isSkill={true}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 

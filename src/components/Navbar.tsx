@@ -1,101 +1,115 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  const menuVariants = {
-    closed: {
-      opacity: 0,
-      x: "100%",
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 40
-      }
-    },
-    open: {
+  const navVariants = {
+    hidden: { y: -100, opacity: 0 },
+    visible: {
+      y: 0,
       opacity: 1,
-      x: 0,
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 40
-      }
+      transition: { duration: 0.6 }
+    }
+  };
+
+  const linkVariants = {
+    hover: {
+      scale: 1.05,
+      color: '#9333ea', // neon-purple
+      textShadow: '0 0 8px rgba(147, 51, 234, 0.5)',
+      transition: { duration: 0.2 }
     }
   };
 
   return (
-    <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      className="fixed top-0 left-0 right-0 z-50 bg-[#f4f4f0] border-b-2 border-black"
-    >
-      <div className="max-w-7xl mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="text-2xl font-bold text-black font-serif tracking-wider uppercase"
-          >
-            Soulmad
-          </motion.div>
+    <>
+      <motion.nav
+        initial="hidden"
+        animate="visible"
+        variants={navVariants}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'py-4' : 'py-6'}`}
+      >
+        <div className={`mx-auto max-w-7xl px-6 transition-all duration-300 ${scrolled ? 'bg-obsidian/80 backdrop-blur-md border border-white/10 rounded-full shadow-lg mx-4' : 'bg-transparent'}`}>
+          <div className="flex items-center justify-between h-16">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="text-2xl font-bold font-serif tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400 cursor-pointer"
+            >
+              Soulmad
+            </motion.div>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex gap-8">
-            {['Home', 'Skills', 'Projects', 'Contact'].map((item, index) => (
+            {/* Desktop Menu */}
+            <div className="hidden md:flex gap-8 items-center">
+              {['Home', 'Skills', 'Projects', 'Contact'].map((item) => (
+                <motion.a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  variants={linkVariants}
+                  whileHover="hover"
+                  className="text-gray-300 font-medium text-sm tracking-wide uppercase"
+                >
+                  {item}
+                </motion.a>
+              ))}
               <motion.a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 + 0.3, duration: 0.5 }}
-                whileHover={{ scale: 1.1, textDecoration: 'underline' }}
-                className="text-black hover:text-gray-600 transition-colors duration-300 font-serif font-medium cursor-pointer text-lg"
+                href="#contact"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-2 bg-white text-obsidian font-bold rounded-full hover:bg-gray-200 transition-colors"
               >
-                {item}
+                Let's Talk
               </motion.a>
-            ))}
-          </div>
+            </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button onClick={toggleMenu} className="text-black focus:outline-none">
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
-            </button>
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <button onClick={toggleMenu} className="text-white focus:outline-none">
+                {isOpen ? <X size={28} /> : <Menu size={28} />}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </motion.nav>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial="closed"
-            animate="open"
-            exit="closed"
-            variants={menuVariants}
-            className="fixed inset-0 bg-[#f4f4f0] z-40 flex flex-col items-center justify-center md:hidden border-l-2 border-black"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 z-40 bg-obsidian/95 backdrop-blur-xl md:hidden flex flex-col items-center justify-center"
           >
             <div className="flex flex-col gap-8 text-center">
               {['Home', 'Skills', 'Projects', 'Contact'].map((item) => (
-                <a
+                <motion.a
                   key={item}
                   href={`#${item.toLowerCase()}`}
                   onClick={toggleMenu}
-                  className="text-4xl text-black hover:underline transition-all font-serif font-bold"
+                  whileHover={{ scale: 1.1, color: '#9333ea' }}
+                  className="text-3xl text-white font-serif font-bold"
                 >
                   {item}
-                </a>
+                </motion.a>
               ))}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </>
   );
 };
 

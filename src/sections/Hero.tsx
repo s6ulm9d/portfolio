@@ -1,81 +1,100 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
+import ScrambleText from '../components/ScrambleText';
 
 const Hero = () => {
+  const { scrollY } = useScroll();
+  const opacity = useTransform(scrollY, [0, 200], [1, 0]);
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.8 },
+    },
+  };
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#f4f4f0]">
-      {/* Background Texture (Optional: could add a subtle noise or paper texture here) */}
-
-      <div className="container mx-auto px-6 text-center z-10">
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          initial="hidden"
+          animate="visible"
+          transition={{ staggerChildren: 0.2 }}
+          className="max-w-4xl mx-auto text-center"
         >
-          <h1 className="text-5xl md:text-7xl lg:text-9xl font-bold text-[#1a1a1a] tracking-tighter mb-6 italic">
-            WELCOME
-          </h1>
-          <h1 className="text-xl md:text-3xl lg:text-5xl font-bold text-[#1a1a1a] mb-8 leading-tight uppercase tracking-widest border-b-2 border-black inline-block pb-2">
-            TO MY PORTFOLIO
-          </h1>
-        </motion.div>
+          <motion.div variants={itemVariants} className="mb-6 inline-block">
+            <span className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-neon-blue backdrop-blur-sm tracking-wider uppercase font-medium">
+              Available for work
+            </span>
+          </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="text-xl md:text-2xl text-[#4a4a4a] mb-12 max-w-3xl mx-auto leading-relaxed font-serif italic"
-        >
-          "Crafting digital experiences with the precision of the press and the creativity of art."
-        </motion.p>
+          <div className="mb-8 flex flex-col items-center">
+            <ScrambleText
+              text="CREATIVE DEVELOPER"
+              className="text-5xl md:text-8xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-neon-purple to-neon-blue mb-2 justify-center"
+              delay={0.2}
+            />
+            <ScrambleText
+              text="& UI DESIGNER"
+              className="text-5xl md:text-8xl font-bold tracking-tighter text-white/90 justify-center"
+              delay={0.4}
+            />
+          </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-          className="flex gap-6 justify-center"
-        >
-          <motion.a
-            href="#projects"
-            whileHover={{ scale: 1.05, boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 bg-[#1a1a1a] text-[#f4f4f0] border-2 border-black rounded-none font-serif text-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all"
+          <motion.p
+            variants={itemVariants}
+            className="text-xl md:text-2xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed"
           >
-            Read Projects
-          </motion.a>
+            Turning crazy ideas into reality through code.
+            Specializing in ML, Security, and immersive web experiences.
+          </motion.p>
 
-          <motion.a
-            href="#contact"
-            whileHover={{ scale: 1.05, boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 bg-transparent text-[#1a1a1a] border-2 border-black rounded-none font-serif text-lg hover:bg-black hover:text-white transition-all"
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col md:flex-row gap-6 justify-center items-center"
           >
-            Contact Me
-          </motion.a>
+            <motion.a
+              href="#projects"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 bg-white text-obsidian font-bold rounded-full hover:bg-gray-200 transition-colors w-full md:w-auto"
+            >
+              View Projects
+            </motion.a>
+
+            <motion.div className="flex gap-6">
+              {[Github, Linkedin, Mail].map((Icon, index) => (
+                <motion.a
+                  key={index}
+                  href={index === 0 ? "https://github.com/s6ulm9d" : index === 1 ? "https://www.linkedin.com/in/soul-mad/" : "mailto:srybroiambusy@gmail.com"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.2, color: '#9333ea' }}
+                  className="text-gray-400 hover:text-white transition-colors p-2"
+                >
+                  <Icon size={24} />
+                </motion.a>
+              ))}
+            </motion.div>
+          </motion.div>
         </motion.div>
       </div>
 
       {/* Scroll Indicator */}
       <motion.div
+        style={{ opacity }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 1 }}
+        transition={{ delay: 1.5, duration: 1 }}
         className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
       >
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <svg
-            className="w-8 h-8 text-black"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-          </svg>
+          <ArrowDown className="text-gray-400" size={32} />
         </motion.div>
       </motion.div>
     </section>

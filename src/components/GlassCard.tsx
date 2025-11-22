@@ -1,121 +1,58 @@
-import { motion, useMotionValue, useSpring, useTransform, useAnimation } from 'framer-motion';
-import { ReactNode, useRef, MouseEvent, useState } from 'react';
+import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+import { MouseEvent } from "react";
 
 interface GlassCardProps {
-  icon?: ReactNode;
+  icon: React.ReactNode;
   title: string;
-  description: ReactNode;
+  description: React.ReactNode;
   index: number;
   isSkill?: boolean;
-  percent?: number;
+  className?: string;
 }
 
-const GlassCard = ({ icon, title, description, index, isSkill = false, percent = 0 }: GlassCardProps) => {
-  const cardRef = useRef<HTMLDivElement>(null);
+const GlassCard = ({ icon, title, description, index, isSkill = false, className = "" }: GlassCardProps) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [5, -5]), { // Reduced tilt for paper feel
-    stiffness: 300,
-    damping: 30,
-  });
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-5, 5]), {
-    stiffness: 300,
-    damping: 30,
-  });
-
-  const [hovered, setHovered] = useState(false);
-
-  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    if (window.matchMedia("(max-width: 768px)").matches) return;
-
-    const rect = cardRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-
-    const mouseXRelative = (e.clientX - centerX) / (rect.width / 2);
-    const mouseYRelative = (e.clientY - centerY) / (rect.height / 2);
-
-    mouseX.set(mouseXRelative);
-    mouseY.set(mouseYRelative);
-  };
-
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
+  function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
 
   return (
-    <motion.div
-      ref={cardRef}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.2,
-        ease: [0.22, 1, 0.36, 1]
-      }}
+    <div
+      className={`group relative max-w-md rounded-xl bg-white/5 border border-white/10 px-8 py-10 shadow-2xl overflow-hidden ${className}`}
       onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: 'preserve-3d',
-        perspective: '1000px',
-      }}
-      className="relative"
     >
       <motion.div
-        whileHover={{ scale: 1.02 }} // Subtle scale
-        style={{ transformStyle: 'preserve-3d' }}
-        transition={{ duration: 0.3 }}
-        className="glass-strong rounded-none p-8 relative overflow-hidden group cursor-pointer bg-white border-2 border-black"
-        onHoverStart={() => setHovered(true)}
-        onHoverEnd={() => setHovered(false)}
-      >
-        {/* No more background glows. Just clean paper. */}
+        className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"
+        style={{
+          background: useMotionTemplate`
+            radial-gradient(
+              650px circle at ${mouseX}px ${mouseY}px,
+              rgba(147, 51, 234, 0.15),
+              transparent 80%
+            )
+          `,
+        }}
+      />
 
-        <div className="relative z-10" style={{ transform: 'translateZ(20px)' }}>
-          {icon && (
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
-              className="text-5xl mb-6 text-black"
-            >
-              {icon}
-            </motion.div>
-          )}
+      {/* Shimmer Effect */}
+      <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent z-10 pointer-events-none" />
 
-          <h3 className="text-3xl font-bold text-black mb-4 font-serif border-b-2 border-black pb-2 inline-block">
-            {title}
-          </h3>
-
-          {!isSkill && <div className="text-[#333] leading-relaxed font-serif">{description}</div>}
-
-          {/* Skill progress bar - Paper Style */}
-          {isSkill && (
-            <div className="mt-4 w-full">
-              <div className="relative w-full h-4 border-2 border-black rounded-none overflow-hidden bg-white">
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${percent}%` }}
-                  viewport={{ once: true }}
-                  className="absolute left-0 top-0 h-full bg-black" // Solid black bar
-                  transition={{ duration: 1.5, ease: 'easeOut', delay: 0.2 }}
-                />
-              </div>
-              {hovered && (
-                <span className="text-sm text-black mt-1 block text-center font-bold font-mono">
-                  {percent}%
-                </span>
-              )}
-            </div>
-          )}
+      <div className="relative z-10 h-full flex flex-col">
+        <div className="mb-6 inline-block rounded-lg bg-white/5 p-3 text-neon-purple w-fit group-hover:text-white group-hover:bg-neon-purple transition-colors duration-300">
+          {icon}
         </div>
-      </motion.div>
-    </motion.div>
+        <h3 className="mb-4 text-2xl font-bold text-white group-hover:text-neon-blue transition-colors duration-300">
+          {title}
+        </h3>
+        <div className={`text-gray-400 leading-relaxed ${isSkill ? 'text-sm font-mono' : 'text-base'}`}>
+          {description}
+        </div>
+      </div>
+    </div>
   );
 };
 
