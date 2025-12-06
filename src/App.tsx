@@ -6,6 +6,8 @@ import Footer from './sections/Footer';
 import Contact from './sections/Contact';
 import CustomCursor from './components/CustomCursor';
 import About from './sections/About';
+import Certifications from './sections/Certifications';
+import Resume from './sections/Resume';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
         <About />
         <Skills />
         <Projects />
+        <Certifications />
+        <Resume />
         <Contact />
         <Footer />
       </div>

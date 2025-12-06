@@ -53,7 +53,7 @@ const Navbar = () => {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex gap-8 items-center">
-              {['Home', 'Skills', 'Projects', 'Contact'].map((item) => (
+              {['Home', 'Skills', 'Projects', 'Certifications', 'Resume', 'Contact'].map((item) => (
                 <motion.a
                   key={item}
                   href={`#${item.toLowerCase()}`}
@@ -94,7 +94,7 @@ const Navbar = () => {
             className="fixed inset-0 z-40 bg-obsidian/95 backdrop-blur-xl md:hidden flex flex-col items-center justify-center"
           >
             <div className="flex flex-col gap-8 text-center">
-              {['Home', 'Skills', 'Projects', 'Contact'].map((item) => (
+              {['Home', 'Skills', 'Projects', 'Certifications', 'Resume', 'Contact'].map((item) => (
                 <motion.a
                   key={item}
                   href={`#${item.toLowerCase()}`}
