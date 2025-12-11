@@ -17,16 +17,16 @@ const About = () => {
 
                     <div className="space-y-8 text-lg md:text-xl text-gray-400 leading-relaxed text-left">
                         <p>
-                            <span className="text-white font-bold text-2xl">I'm Soulmad.</span> And I have a confession: <span className="text-neon-purple italic">I get a lot of crazy ideas.</span>
+                            <span className="text-white font-bold text-2xl">I'm Soulmad.</span> I am driven by a relentless pursuit of innovation and technical excellence.
                         </p>
                         <p>
-                            Some people code for logic; I code to feed my curiosity. My best work doesn't come from following a textbook—it comes from those random, "What if?" moments.
+                            While logic acts as the foundation of my work, curiosity is the catalyst. My most impactful projects stem from a desire to explore the "what if" and push the boundaries of conventional software engineering.
                         </p>
                         <p>
-                            Like when I built <span className="text-neon-blue font-medium">Moodify</span>, an ML-powered platform that knows exactly what music fits your mood. Or my current obsession: an <span className="text-neon-blue font-medium">Android Security App</span> that learns your behavior patterns. If someone else tries to use your phone? It knows. And it alerts you instantly via WhatsApp and Email.
+                            From building <span className="text-neon-blue font-medium">Moodify</span>, an ML-powered platform that intuitively understands user preferences, to developing a sophisticated <span className="text-neon-blue font-medium">Android Security App</span> that utilizes behavioral analysis for threat detection—my focus is on creating intelligent, resilient systems.
                         </p>
                         <p>
-                            I build things because I want to push the boundaries of what's possible—and usually, because I want to solve a problem in my own life. If you have a crazy idea too, I'm probably the best person to help you build it.
+                            I engineer solutions not just to solve problems, but to define new possibilities. If you are looking for a partner to bring complex, forward-thinking concepts to life, I am ready to collaborate.
                         </p>
                     </div>
 

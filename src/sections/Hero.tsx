@@ -47,8 +47,8 @@ const Hero = () => {
             variants={itemVariants}
             className="text-xl md:text-2xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed"
           >
-            Turning crazy ideas into reality through code.
-            Specializing in ML, Security, and immersive web experiences.
+            Transforming conceptual visions into high-performance digital reality.
+            Specializing in Machine Learning, Cybersecurity, and immersive web experiences.
           </motion.p>
 
           <motion.div

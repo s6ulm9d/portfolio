@@ -1,6 +1,26 @@
 import { Bot, Code, Rocket } from 'lucide-react';
 
 export const projects = [
+
+  {
+    icon: Bot,
+    title: 'E-Connecto',
+    description: 'A Next.js Service based platform for connecting recyclers and waste generators.',
+    live: 'https://e-connecto.vercel.app/',
+  },
+  {
+    icon: Code,
+    title: 'Breakpoint',
+    description: 'High-performance Python security tool for aggressive attack optimization and penetration testing.',
+    github: 'https://github.com/s6ulm9d/Breakpoint',
+    live: 'https://breakpoint-web-one.vercel.app',
+  },
+  {
+    icon: Rocket,
+    title: 'AI Assistant App',
+    description: 'Kotlin Android app capable of opening apps, sending messages, and making calls via voice commands.',
+    github: 'https://github.com/s6ulm9d/assistant',
+  },
   {
     icon: Bot,
     title: 'Moodify',
@@ -41,6 +61,7 @@ export const skills = [
   { name: "TypeScript", percent: 60, logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg", category: "Frontend" },
   { name: "React", percent: 75, logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", category: "Frontend" },
   { name: "Framer Motion", percent: 60, logo: "https://logosandtypes.com/wp-content/uploads/2021/04/framer-motion.svg", category: "Frontend" },
+  { name: "Next.js", percent: 85, logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg", category: "Frontend" },
   { name: "Node.js", percent: 75, logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg", category: "Backend" },
   { name: "Express.js", percent: 70, logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg", category: "Backend" },
   { name: "MongoDB", percent: 70, logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg", category: "Backend" },
@@ -55,5 +76,8 @@ export const skills = [
   { name: "XML", percent: 75, logo: "https://e7.pngegg.com/pngimages/641/474/png-clipart-xml-editor-computer-icons-others-angle-text.png", category: "Tools" },
   { name: "SQL", percent: 55, logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg", category: "Tools" },
   { name: "Bash", percent: 65, logo: "https://cdn-icons-png.flaticon.com/512/6132/6132222.png", category: "Tools" },
-  { name: "Power BI", percent: 60, logo: "https://1000logos.net/wp-content/uploads/2022/12/Power-BI-Logo-768x432.png", category: "Tools" },
+  { name: "Cybersecurity", percent: 85, logo: "https://cdn-icons-png.flaticon.com/512/2716/2716652.png", category: "Tools" },
+  { name: "CLI Tools", percent: 90, logo: "https://cdn-icons-png.flaticon.com/512/8061/8061685.png", category: "Backend" },
+  { name: "CI/CD", percent: 75, logo: "https://cdn-icons-png.flaticon.com/512/1005/1005141.png", category: "Tools" },
+  { name: "Gemini API", percent: 85, logo: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Google_Gemini_logo.svg", category: "Backend" },
 ];

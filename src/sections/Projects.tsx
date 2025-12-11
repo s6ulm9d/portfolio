@@ -12,7 +12,7 @@ const Projects = () => {
       <div className="container mx-auto px-6">
 
         {/* Sticky Header with Parallax Text */}
-        <div className="sticky top-24 z-20 mb-16 text-center mix-blend-difference">
+        <div className="relative z-20 mb-16 text-center mix-blend-difference">
           <motion.h2
             initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
             whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -29,7 +29,7 @@ const Projects = () => {
             viewport={{ once: true }}
             className="text-xl text-gray-400 max-w-2xl mx-auto mt-4"
           >
-            A collection of experiments, solutions, and moonshots.
+            A curated portfolio of innovative solutions, engineering challenges, and technical breakthroughs.
           </motion.p>
         </div>
 
